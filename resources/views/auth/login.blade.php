@@ -1,12 +1,12 @@
 @include('header')
-<main class="login-form">
+<main class="login-form my-auto">
     <div class="cotainer">
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <div class="card">
                     <h3 class="card-header text-center">Login</h3>
                     <div class="card-body">
-                        <form method="get" action="/admin/events">
+                        <form method="post" action="{{ route('login') }}">
                             @csrf
                             <div class="form-group mb-3">
                                 <input type="text" placeholder="Email" id="email" class="form-control" name="email" required
@@ -24,12 +24,12 @@
                             <div class="form-group mb-3">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember"> Remember Me
+                                        <input type="checkbox" name="is_admin"> Login as admin
                                     </label>
                                 </div>
                             </div>
-                            <div class="d-grid mx-auto">
-                                <button type="submit" class="btn btn-dark btn-block">Signin</button>
+                            <div class="d-grid mx-auto text-end">
+                                <button type="submit" class="btn bg-rose-800 text-white">Sign in</button>
                             </div>
                         </form>
                     </div>
@@ -39,3 +39,4 @@
     </div>
 </main>
 @include('footer')
+

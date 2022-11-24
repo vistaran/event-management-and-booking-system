@@ -6,7 +6,7 @@
                 <div class="card">
                     <h3 class="card-header text-center">Register User</h3>
                     <div class="card-body">
-                        <form action="" method="POST">
+                        <form action="{{ route('register') }}" method="POST">
                             @csrf
                             <div class="form-group mb-3">
                                 <input type="text" placeholder="Name" id="name" class="form-control" name="name"
@@ -34,8 +34,8 @@
                                     <label><input type="checkbox" name="remember"> Remember Me</label>
                                 </div>
                             </div>
-                            <div class="d-grid mx-auto">
-                                <button type="submit" class="btn btn-dark btn-block">Sign up</button>
+                            <div class="d-grid mx-auto text-end">
+                                <button type="submit" class="btn bg-rose-800 text-white">Sign up</button>
                             </div>
                         </form>
                     </div>

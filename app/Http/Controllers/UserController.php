@@ -6,13 +6,11 @@ use Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
-    public function events()
+    public function default()
     {
-        $user = Auth::user();
-        // dd($user);
-        return view('admin');
+        return view('customer.custom-default');
     }
 
     public function add_events(){
