@@ -15,31 +15,12 @@
     });
 </script>
 
-{{-- <style>
-    .gallery {
-        padding: 1rem;
-        display: grid;
-        grid-template-columns: repeat(10, 80vw);
-        grid-template-rows: 1fr;
-        grid-column-gap: 1rem;
-        grid-row-gap: 1rem;
-        overflow: scroll;
-        height: 90vh;
-        scroll-snap-type: both mandatory;
-        scroll-padding: 1rem;
+<style>
+    .px-48 {
+        padding-left: 12rem !important;
+        padding-right: 12rem !important;
     }
-
-    .active {
-        scroll-snap-type: unset;
-    }
-
-    li {
-        scroll-snap-align: center;
-        display: inline-block;
-        border-radius: 3px;
-        font-size: 0;
-    }
-</style> --}}
+</style>
 
 <body>
     <header>
@@ -118,6 +99,4 @@
     </div>
 </body>
 
-<script>
-
-</script>
+<script></script>
