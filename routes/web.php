@@ -38,5 +38,7 @@ Route::get('/admin/edit_event/{id}', [AdminController::class, 'edit_event'])->na
 Route::post('/admin/event_update/{id}', [AdminController::class, 'event_update'])->name('event_update');
 
 Route::get('/admin/event_delete/{id}', [AdminController::class, 'event_delete'])->name('event_delete');
-Route::get('/book-event', [AdminController::class, 'book_events'])->name('book_events');
+Route::get('/admin/show_event/{id}', [AdminController::class, 'show_event'])->name('book_events');
 
+Route::get('/book-event/{id}', [AdminController::class, 'book_events'])->name('book_events');
+Route::post('/add_attendee/{id}', [UserController::class, 'add_attendee'])->name('add_attendee');

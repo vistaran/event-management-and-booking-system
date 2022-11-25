@@ -61,6 +61,24 @@ class AdminController extends Controller
         return redirect()->route('events', ['events' => $events]);
     }
 
+    public function show_event($id)
+    {
+        $event_details = Events::where('id', $id)->get()->first();
+
+        if ($event_details->show_event == 1) {
+            $event_details = Events::where('id', $id)->update([
+                'show_event' => 0
+            ]);
+        } else {
+            $event_details = Events::where('id', $id)->update([
+                'show_event' => 1
+            ]);
+        }
+
+        $events = Events::get();
+        return redirect()->route('events', ['events' => $events]);
+    }
+
     public function event_delete($id)
     {
         $event = Events::where('id', $id)->delete($id);
@@ -73,8 +91,9 @@ class AdminController extends Controller
 
 
 
-    public function book_events()
+    public function book_events($id)
     {
-        return view('event-book');
+        $event_details = Events::where('id', $id)->get()->first();
+        return view('events.event-book', ['event_details' => $event_details]);
     }
 }

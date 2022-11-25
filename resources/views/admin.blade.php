@@ -42,7 +42,14 @@
                         <a href="/admin/event_delete/{{ $item->id }}"
                             onclick="return confirm('Are you sure you want to delete this event?');"><button
                                 class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Delete</button></a>
-                        <button class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Hide</button>
+                        @if ($item->show_event == 1)
+                            <a href="/admin/show_event/{{ $item->id }}"><button
+                                    class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Hide</button></a>
+                        @else
+                            <a href="/admin/show_event/{{ $item->id }}"><button
+                                    class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Unhide</button></a>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach

@@ -13,5 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        '/add_attendee/{id}',
+        'custom_default'
     ];
 }

@@ -4,7 +4,7 @@
         <div class="py-5">
             <h2 class="text-2xl font-semibold">Add New Event</h2>
             <p>
-                <button class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Back</button>
+                <a href="javascript:history.back()"><button class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Back</button></a>
             </p>
         </div>
 
