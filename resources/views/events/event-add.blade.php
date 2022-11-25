@@ -8,7 +8,7 @@
             </p>
         </div>
 
-        <form method="get" action="/admin/events">
+        <form method="post" action="/admin/add_event">
             @csrf
             <div class="form-group mb-3">
                 <input type="text" placeholder="Event Name" id="event_name" class="form-control" name="event_name" required
@@ -18,16 +18,16 @@
                 @endif
             </div>
             <div class="form-group mb-3">
-                <input type="text" placeholder="Max Seats" id="max_seats" class="form-control" name="max_seats" required>
-                @if ($errors->has('max_seats'))
-                <span class="text-danger">{{ $errors->first('max_seats') }}</span>
+                <input type="text" placeholder="Max Seats" id="no_of_seats" class="form-control" name="no_of_seats" required>
+                @if ($errors->has('no_of_seats'))
+                <span class="text-danger">{{ $errors->first('no_of_seats') }}</span>
                 @endif
             </div>
 
             <div class="form-group mb-3">
-                <input type="text" placeholder="Cost Per Ticket" id="cost_per_ticket" class="form-control" name="cost_per_ticket" required>
-                @if ($errors->has('cost_per_ticket'))
-                <span class="text-danger">{{ $errors->first('cost_per_ticket') }}</span>
+                <input type="text" placeholder="Cost Per Ticket" id="ticket_price" class="form-control" name="ticket_price" required>
+                @if ($errors->has('ticket_price'))
+                <span class="text-danger">{{ $errors->first('ticket_price') }}</span>
                 @endif
             </div>
 
@@ -38,8 +38,8 @@
                 @endif
             </div>
 
-            <div class="d-grid mx-auto">
-                <button type="submit" class="btn btn-dark btn-block">Save</button>
+            <div class="d-grid mx-auto text-end ">
+                <button type="submit" class="btn bg-rose-800 text-white">Save</button>
             </div>
         </form>
     </div>

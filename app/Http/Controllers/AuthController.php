@@ -34,9 +34,9 @@ class AuthController extends Controller
             // Authentication passed...
             if (!empty($request->is_admin)) {
                 // dd('here');
-                return view('admin');
+                return redirect()->route('events');
             } else {
-                return view('customer.custom-default');
+                return redirect()->route('customer_default');
             }
         }
         // if (Auth::attempt($credentials)) {

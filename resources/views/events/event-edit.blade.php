@@ -1,0 +1,54 @@
+@include('header')
+<div class="p-5 px-48">
+
+    <div class="py-5">
+        <h2 class="text-2xl font-semibold">Edit Event</h2>
+        <p>
+            <button class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Back</button>
+        </p>
+    </div>
+
+    <form method="POST" action="/admin/event_update/{{ $event_details->id }}">
+        @csrf
+        <div class="form-group mb-3">
+            <input type="text" placeholder="Event Name" id="event_name" class="form-control" name="event_name" required
+                autofocus value="{{ $event_details->event_name }}">
+            @if ($errors->has('event_name'))
+                <span class="text-danger">{{ $errors->first('event_name') }}</span>
+            @endif
+        </div>
+        <div class="form-group mb-3">
+            <input type="text" placeholder="Max Seats" id="no_of_seats" class="form-control" name="no_of_seats" required
+                value="{{ $event_details->no_of_seats }}">
+            @if ($errors->has('no_of_seats'))
+                <span class="text-danger">{{ $errors->first('no_of_seats') }}</span>
+            @endif
+        </div>
+
+        <div class="form-group mb-3">
+            <input type="text" placeholder="Cost Per Ticket" id="ticket_price" class="form-control"
+                name="ticket_price" required value="{{ $event_details->ticket_price }}">
+            @if ($errors->has('ticket_price'))
+                <span class="text-danger">{{ $errors->first('ticket_price') }}</span>
+            @endif
+        </div>
+
+        <div class="form-group mb-3">
+            <input type="date" placeholder="Event Date" id="event_date" class="form-control" name="event_date"
+                required value="{{ $event_details->event_date }}">
+            @if ($errors->has('event_date'))
+                <span class="text-danger">{{ $errors->first('event_date') }}</span>
+            @endif
+        </div>
+
+        <div class="d-grid mx-auto text-end">
+            <button type="submit" class="btn bg-rose-800 text-white">Save</button>
+        </div>
+    </form>
+</div>
+@include('footer')
+
+<script>
+    let events = {!! json_encode($event_details->toArray()) !!};
+    console.log(events);
+</script>
