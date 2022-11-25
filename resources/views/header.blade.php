@@ -31,12 +31,26 @@
                 <input class="border border-gray-100 rounded text-sm p-1 w-72" placeholder="Search for events">
             </div>
             <div class="grid grid-cols-2">
-                <p class="">
-                    <a href="/login">Login</a>
-                </p>
-                <p class="">
-                    <a href="/registration">Register</a>
-                </p>
+
+                @auth
+                    <p>
+                        <a>{{ auth()->user()->name }}</a>
+                    </p>
+                    <p class="">
+                        <a href="/custom_default">Customers</a>
+                    </p>
+                    <p>
+                        <a href="/signout">Logout</a>
+                    </p>
+                @else
+                    <p class="">
+                        <a href="/login">Login</a>
+                    </p>
+                    <p class="">
+                        <a href="/registration">Register</a>
+                    </p>
+                @endauth
+                
             </div>
         </div>
     </header>

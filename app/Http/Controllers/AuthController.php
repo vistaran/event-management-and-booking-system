@@ -26,10 +26,6 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        // $data = User::where('email', $request->email)->first();
-
-        $credentials = $request->only('email', 'password');
-
         if (Auth::attempt($credentials)) {
             // Authentication passed...
             if (!empty($request->is_admin)) {
@@ -38,6 +34,8 @@ class AuthController extends Controller
             } else {
                 return redirect()->route('customer_default');
             }
+        } else {
+            return redirect()->route('login');
         }
         // if (Auth::attempt($credentials)) {
         // }

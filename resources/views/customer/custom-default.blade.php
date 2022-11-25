@@ -2,7 +2,10 @@
     <div class="p-5 px-48">
 
         <div class="py-5">
-            <h2 class="text-2xl font-semibold">Upcoming Events</h2>
+            <h2 class="text-2xl font-semibold">Customers</h2>
+            <p>
+                <a class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900" href="/customer_add">Add New Customer</a>
+            </p>
         </div>
 
         {{-- <div>
@@ -24,36 +27,24 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>20</td>
-                    <td>20.00</td>
-                    <td>
-                        <button class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Book now</button>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>10</td>
-                    <td>10.00</td>
-                    <td>
-                        <a href="/book-event"><button class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Book now</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>15</td>
-                    <td>15.00</td>
-                    <td>
-                        <button class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Book now</button>
-                    </td>
-                </tr>
+                @foreach ($users as $item)
+                    <tr>
+                        <th scope="row">#</th>
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->email }}</td>
+                        <td>{{ $item->created_at }}</td>
+                        <td>
+                            <td>
+                                <a href="/custom_edit/{{ $item->id }}"><button
+                                        class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Edit</button></a>
+                                <a href="/customer_delete/{{ $item->id }}"
+                                    onclick="return confirm('Are you sure you want to delete this user?');"><button
+                                        class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Delete</button></a>
+                            </td>
+                        </td>
+                    </tr>
+                @endforeach
+                
             </tbody>
         </table>
     </div>

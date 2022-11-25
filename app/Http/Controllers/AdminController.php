@@ -69,10 +69,6 @@ class AdminController extends Controller
         return redirect()->route('events', ['events' => $events]);
     }
 
-
-
-
-
     public function book_events()
     {
         return view('event-book');
