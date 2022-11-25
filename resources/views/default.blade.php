@@ -24,6 +24,9 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($events as $item)
+
+                @endforeach
                 <tr>
                     <th scope="row">1</th>
                     <td>Mark</td>

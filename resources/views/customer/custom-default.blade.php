@@ -1,9 +1,12 @@
 @include('header')
 <div class="p-5 px-48">
 
-    <div class="py-5">
-        <h2 class="text-2xl font-semibold">Events List</h2>
-    </div>
+        <div class="py-5">
+            <h2 class="text-2xl font-semibold">Customers</h2>
+            <p>
+                <a class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900" href="/customer_add">Add New Customer</a>
+            </p>
+        </div>
 
     {{-- <div>
             <ul class="gallery">
@@ -16,28 +19,32 @@
         <thead>
             <tr>
                 <th scope="col">No.</th>
-                <th scope="col">Event Name</th>
-                <th scope="col">Date</th>
-                <th scope="col">Number of seats available</th>
-                <th scope="col">Ticket Price</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Created at</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($events as $item)
-                <tr>
-                    <th scope="row">{{ $loop->index + 1 }}</th>
-                    <td>{{ $item->event_name }}</td>
-                    <td>{{ $item->event_date }}</td>
-                    <td>{{ $item->available_seats }}</td>
-                    <td>{{ $item->ticket_price }}</td>
-                    <td>
-                        <a href="/book-event/{{ $item->id }}"><button class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Book
-                                now</button></a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-@include('footer')
+                @foreach ($users as $item)
+                    <tr>
+                        <th scope="row">#</th>
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->email }}</td>
+                        <td>{{ $item->created_at }}</td>
+                        <td>
+                            <td>
+                                <a href="/custom_edit/{{ $item->id }}"><button
+                                        class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Edit</button></a>
+                                <a href="/customer_delete/{{ $item->id }}"
+                                    onclick="return confirm('Are you sure you want to delete this user?');"><button
+                                        class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Delete</button></a>
+                            </td>
+                        </td>
+                    </tr>
+                @endforeach
+
+            </tbody>
+        </table>
+    </div>
+    @include('footer')

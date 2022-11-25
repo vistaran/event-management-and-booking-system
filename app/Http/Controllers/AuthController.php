@@ -26,18 +26,16 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        // $data = User::where('email', $request->email)->first();
-
-        $credentials = $request->only('email', 'password');
-
         if (Auth::attempt($credentials)) {
             // Authentication passed...
             if (!empty($request->is_admin)) {
                 // dd('here');
                 return redirect()->route('events');
             } else {
-                return redirect()->route('customer_default');
+                return redirect()->route('allEvents');
             }
+        } else {
+            return redirect()->route('login');
         }
         // if (Auth::attempt($credentials)) {
         // }
@@ -66,7 +64,7 @@ class AuthController extends Controller
 
         Session::put('customer_email', $request->email);
 
-        return view('customer.custom-default')->withSuccess('You have signed-in');
+        return view('events.event_list')->withSuccess('You have signed-in');
     }
 
     public function create(array $data)

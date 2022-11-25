@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendees;
 use App\Models\Events;
 use Illuminate\Http\Request;
 use Hash;
@@ -9,6 +10,7 @@ use Session;
 use App\Models\User;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -96,4 +98,6 @@ class AdminController extends Controller
         $event_details = Events::where('id', $id)->get()->first();
         return view('events.event-book', ['event_details' => $event_details]);
     }
+
+
 }

@@ -40,13 +40,34 @@
                 <p class="text-2xl font-serif"><a href="/">Book your tickets</a></p>
                 <input class="border border-gray-100 rounded text-sm p-1 w-72" placeholder="Search for events">
             </div>
-            <div class="grid grid-cols-2">
-                <p class="">
-                    <a href="/login">Login</a>
-                </p>
-                <p class="">
-                    <a href="/registration">Register</a>
-                </p>
+            <div class="flex gap-4">
+
+                @auth
+
+                    <p>
+                        <a>{{ auth()->user()->name }}</a>
+                    </p>
+
+                    @if (auth()->user()->is_admin == 0)
+                        <p class="">
+                            <a href="/list_events">My Events</a>
+                        </p>
+                    @endif
+                    <p class="">
+                        <a href="/custom_default">Customers</a>
+                    </p>
+                    <p>
+                        <a href="/signout">Logout</a>
+                    </p>
+                @else
+                    <p class="">
+                        <a href="/login">Login</a>
+                    </p>
+                    <p class="">
+                        <a href="/registration">Register</a>
+                    </p>
+                @endauth
+
             </div>
         </div>
     </header>
