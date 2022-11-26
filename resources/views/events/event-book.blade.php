@@ -102,9 +102,9 @@
                 },
                 datatype: 'html',
                 success: function(res) {
+                    openWin()
                     window.location.href = '/list_events';
                     console.log(res);
-                    openWin();
                 },
                 error: function(err) {
                     console.log(err);
@@ -189,13 +189,5 @@
             win.print();
             win.close();
         }, 1000);
-
-
-        // setTimeout(() => {
-        //     myWindow.document.close();
-        //     myWindow.focus();
-        //     myWindow.print();
-        //     myWindow.close();
-        // });
     }
 </script>
