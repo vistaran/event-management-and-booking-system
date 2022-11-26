@@ -31,31 +31,44 @@
         padding-left: 12rem !important;
         padding-right: 12rem !important;
     }
+
+    .px-24 {
+        padding-left: 6rem !important;
+        padding-right: 6rem !important;
+    }
 </style>
 
 <body>
     <header>
-        <div class="flex justify-between px-44 pt-3 text-xl bg-rose-800 py-3 text-white font-semibold">
+        <div class="flex justify-between px-24 pt-3 text-xl bg-rose-800 py-3 text-white font-semibold">
             <div class="flex gap-6">
-                <p class="text-2xl font-serif"><a href="/">Book your tickets</a></p>
-                <input class="border border-gray-100 rounded text-sm p-1 w-72" placeholder="Search for events">
+                @auth
+                    @if (auth()->user()->is_admin == 0)
+                        <p class="text-2xl font-serif"><a href="{{ route('allEvents') }}">Book your tickets</a></p>
+                    @else
+                        <p class="text-2xl font-serif"><a href="{{ route('events') }}">Book your tickets</a></p>
+                    @endif
+                @else
+                    <p class="text-2xl font-serif"><a href="/">Book your tickets</a></p>
+                @endauth
             </div>
             <div class="flex gap-4">
 
                 @auth
 
                     <p>
-                        <a>{{ auth()->user()->name }}</a>
+                        Logged in as: <a>{{ auth()->user()->name }}</a>
                     </p>
 
                     @if (auth()->user()->is_admin == 0)
                         <p class="">
                             <a href="/list_events">My Events</a>
                         </p>
+                    @else
+                        <p class="">
+                            <a href="/custom_default">Customers</a>
+                        </p>
                     @endif
-                    <p class="">
-                        <a href="/custom_default">Customers</a>
-                    </p>
                     <p>
                         <a href="/signout">Logout</a>
                     </p>

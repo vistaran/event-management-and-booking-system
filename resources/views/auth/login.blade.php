@@ -1,5 +1,5 @@
 @include('header')
-<main class="login-form my-auto">
+<main class="login-form my-auto py-24">
     <div class="cotainer">
         <div class="row justify-content-center">
             <div class="col-md-4">
@@ -21,13 +21,7 @@
                                 <span class="text-danger">{{ $errors->first('password') }}</span>
                                 @endif
                             </div>
-                            <div class="form-group mb-3">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="is_admin"> Login as admin
-                                    </label>
-                                </div>
-                            </div>
+                            <p class="text-sm text-end pb-2 text-gray-600"><a href="/registration">Not yet registered? Click here to register.</a></p>
                             <div class="d-grid mx-auto text-end">
                                 <button type="submit" class="btn bg-rose-800 text-white">Sign in</button>
                             </div>

@@ -1,11 +1,9 @@
 @include('header')
-<div class="p-5 px-48">
+<div class="p-1 px-24">
 
-    <div class="py-5">
+    <div class="py-5 flex justify-between">
         <h2 class="text-2xl font-semibold">Manage Events</h2>
-        <p>
-            <a class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900" href="/admin/add-event">Add New Event</a>
-        </p>
+        <a class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900" href="/admin/add-event"><button> Add New Event</button></a>
     </div>
 
     {{-- <div>
@@ -30,12 +28,12 @@
         <tbody>
             @foreach ($events as $item)
                 <tr>
-                    <th scope="row">{{ $item->id }}</th>
+                    <th scope="row">#</th>
                     <td>{{ $item->event_name }}</td>
                     <td>{{ $item->event_date }}</td>
                     <td>{{ $item->no_of_seats }}</td>
                     <td>{{ $item->available_seats }}</td>
-                    <td>{{ $item->ticket_price }}</td>
+                    <td>${{ number_format($item->ticket_price, 2) }}</td>
                     <td>
                         <a href="/admin/edit_event/{{ $item->id }}"><button
                                 class="rounded p-2 bg-rose-800 text-white hover:bg-rose-900">Edit</button></a>

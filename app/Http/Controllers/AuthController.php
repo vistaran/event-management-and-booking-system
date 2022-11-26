@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Hash;
 use Session;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash as FacadesHash;
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 {
@@ -28,7 +28,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
-            if (!empty($request->is_admin)) {
+            $user = User::where('email', $request->email)->get()->first();
+            // dd($user);
+            if ($user->is_admin == 1) {
                 // dd('here');
                 return redirect()->route('events');
             } else {
@@ -64,7 +66,7 @@ class AuthController extends Controller
 
         Session::put('customer_email', $request->email);
 
-        return view('events.event_list')->withSuccess('You have signed-in');
+        return view('auth.login');
     }
 
     public function create(array $data)

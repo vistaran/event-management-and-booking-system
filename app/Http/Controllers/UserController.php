@@ -22,7 +22,17 @@ class UserController extends Controller
 
     public function allEvents()
     {
+        // $events = DB::table('events')->join('attendees', 'events.id', '!=', 'attendees.event_id')->where('user_id',  Auth::user()->id)->get();
+
         $events = Events::get();
+        // $attendee = Attendees::where('user_id', Auth::user()->id)->get();
+
+        // foreach ($events as $key => $value) {
+        //     # code...
+        //     $value->booked = false;
+        // }
+
+        // dd($events);
 
         return view('customer.custom-all_events', ['events' => $events]);
     }
@@ -55,11 +65,20 @@ class UserController extends Controller
             $attendee->adult_photo = $request->adult_photo;
             $attendee->save();
 
+
+            $total_seats = Events::where('id', $id)->get()->first();
+            $available_seats = $total_seats->available_seats - $request->seats_with_table - $request->seats_without_table;
+
+            $events = Events::where('id', $id)->update([
+                'available_seats' => $available_seats
+            ]);
             // dd($attendee);
 
             $events = Events::get();
 
-            return response()->json(['success' => 'success']);
+            $event_details_print = DB::table('events')->join('attendees', 'events.id', '=', 'attendees.event_id')->where('user_id',  Auth::user()->id)->get();
+
+            return response()->json(['success' => 'success', 'event_details_print' => $event_details_print]);
         } catch (Exception $e) {
             // dd($request);
             Log::error($e->getMessage());
@@ -113,6 +132,6 @@ class UserController extends Controller
     {
         $events = DB::table('events')->join('attendees', 'events.id', '=', 'attendees.event_id')->where('user_id',  Auth::user()->id)->get();
 
-        return view('events.event_list', ['events' => $events]);
+        return view('events.my_events', ['events' => $events]);
     }
 }
