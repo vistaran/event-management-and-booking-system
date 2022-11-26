@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Session;
 use App\Models\User;
+use Exception;
 use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -19,26 +20,33 @@ class AuthController extends Controller
 
     public function customLogin(Request $request)
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
+        try {
+            $request->validate([
+                'email' => 'required',
+                'password' => 'required',
+            ]);
 
-        $credentials = $request->only('email', 'password');
+            $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            // Authentication passed...
-            $user = User::where('email', $request->email)->get()->first();
-            // dd($user);
-            if ($user->is_admin == 1) {
-                // dd('here');
-                return redirect()->route('events');
+            if (Auth::attempt($credentials)) {
+                // Authentication passed...
+                $user = User::where('email', $request->email)->get()->first();
+                // dd($user);
+                if ($user->is_admin == 1) {
+                    // dd('here');
+                    return response()->json(['url' =>'admin/events']);
+                } else {
+                    return response()->json(['url' =>'all_events']);
+                }
             } else {
-                return redirect()->route('allEvents');
+                return response()->json(['error' =>'Invalid credentials']);
             }
-        } else {
-            return redirect()->route('login');
+        } catch (Exception $e) {
+            // dd($request);
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage() . ' ' . $e->getLine()]);
         }
+
         // if (Auth::attempt($credentials)) {
         // }
 
