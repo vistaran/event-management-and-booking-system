@@ -2,7 +2,7 @@
 <div class="p-1 px-48">
 
     <div class="py-5">
-        <h2 class="text-2xl font-semibold">{{ $event_details->event_name }} - Booking Form</h2>
+        <h2 class="text-2xl font-semibold">{{ $event_details->event_name }} - Edit Booking</h2>
         <h3>
             {{ $event_details->event_date }}
         </h3>
@@ -22,7 +22,7 @@
             <div class="form-group mb-3">
                 <label class="font-semibold">Number of seats with table<span class="text-red-600">*</span></label>
                 <input type="number" placeholder="Seats with table" id="seats_with_table" class="form-control"
-                    name="seats_with_table" required value="0">
+                    name="seats_with_table" required value="{{ $attendee->seats_booked_table }}">
                 @if ($errors->has('seats_with_table'))
                     <span class="text-danger">{{ $errors->first('seats_with_table') }}</span>
                 @endif
@@ -31,7 +31,7 @@
             <div class="form-group mb-3">
                 <label class="font-semibold">Number of seats without table<span class="text-red-600">*</span></label>
                 <input type="number" placeholder="Seats without table" id="seats_without_table" class="form-control"
-                    name="seats_without_table" required value="0">
+                    name="seats_without_table" required value="{{ $attendee->seats_booked_without_table }}">
                 @if ($errors->has('seats_without_table'))
                     <span class="text-danger">{{ $errors->first('seats_without_table') }}</span>
                 @endif
@@ -40,7 +40,7 @@
             <div class="form-group mb-3">
                 <label class="font-semibold">Number of adults<span class="text-red-600">*</span></label>
                 <input type="number" placeholder="Number of adults attending" id="no_of_adults" class="form-control"
-                    name="no_of_adults" required value="0">
+                    name="no_of_adults" required value="{{ $attendee->no_of_adults }}">
                 @if ($errors->has('no_of_adults'))
                     <span class="text-danger">{{ $errors->first('no_of_adults') }}</span>
                 @endif
@@ -49,8 +49,8 @@
             <div class="form-group mb-3">
                 <label class="font-semibold">Upload your photo for identification<span
                         class="text-red-600">*</span></label>
-                <input type="file" placeholder="Upload your photo" id="photo" class="form-control" name="photo"
-                    required>
+                <input type="file" placeholder="Upload your photo" src="{{ $attendee->adult_photo }}" id="photo"
+                    class="form-control" name="photo" required>
                 @if ($errors->has('file'))
                     <span class="text-danger">{{ $errors->first('file') }}</span>
                 @endif
@@ -68,27 +68,33 @@
 <script type="text/javascript">
     console.log($('#photo').val());
 
+    let attendee = {!! json_encode($attendee->toArray()) !!};
     let events = {!! json_encode($event_details->toArray()) !!};
+    console.log(attendee);
 
     function eventBook() {
+
         let total_seats = Number($('#seats_without_table').val()) + Number($('#seats_with_table').val());
         console.log(total_seats, 'total');
-        console.log(events);
+        // console.log(events);
         console.log('photy', $('#photo').val());
         if ($('#no_of_adults').val() < 1) {
-            toastr.warning('Atleast one adult must be present.');
+            toastr.warning('Atleast one adult must be present!');
             return;
         } else if (events.available_seats < total_seats) {
             toastr.warning('Only ' + events.available_seats + ' seats are available.');
         } else if (total_seats > 8) {
             toastr.warning('Only 8 seats can be booked per user!');
             return;
-        } else if ($('#photo').val() == '') {
-            toastr.warning('Please upload one adult photo to proceed.');
-            return
         } else {
+            var photo_src = '';
+            if ($('#photo').val() == '') {
+                photo_src = attendee.adult_photo;
+            } else {
+                photo_src = $('#photo').val();
+            }
             $.ajax({
-                url: "/add_attendee/" + events.id,
+                url: "/custom_booked_edit/" + attendee.id,
                 type: "POST",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -98,7 +104,7 @@
                     seats_with_table: Number($('#seats_with_table').val()),
                     seats_without_table: Number($('#seats_without_table').val()),
                     no_of_adults: Number($('#no_of_adults').val()),
-                    adult_photo: $('#photo').val(),
+                    adult_photo: photo_src,
                 },
                 datatype: 'html',
                 success: function(res) {

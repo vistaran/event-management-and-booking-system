@@ -32,8 +32,11 @@ Route::get('/custom_default', [UserController::class, 'default'])->name('custome
 Route::get('/customer_add', [UserController::class, 'add_customer'])->name('customer_add');
 Route::get('/custom_edit/{id}', [UserController::class, 'edit_customer'])->name('customer_edit');
 Route::get('/customer_delete/{id}', [UserController::class, 'customer_delete'])->name('customer_delete');
-Route::post('/admin/add_customer', [UserController::class, 'save_customer'])->name('add_customer');
-Route::post('/admin/update_customer/{id}', [UserController::class, 'update_customer'])->name('update_customer');
+
+Route::get('/custom_booked_edit/{id}', [UserController::class, 'get_booked_edit_form'])->name('get_booked_edit_form');
+Route::post('/custom_booked_edit/{id}', [UserController::class, 'edit_attendee'])->name('custom_booked_edit');
+
+Route::get('/custom_booked_delete/{id}', [UserController::class, 'custom_booked_delete'])->name('custom_booked_delete');
 
 
 Route::get('/signout', [AuthController::class, 'signOut'])->name('signout');
@@ -43,6 +46,8 @@ Route::get('/admin/events', [AdminController::class, 'events'])->name('events');
 
 Route::get('/admin/add-event', [AdminController::class, 'add_events'])->name('add_events');
 Route::post('/admin/add_event', [AdminController::class, 'add_event'])->name('add_event');
+Route::post('/admin/add_customer', [UserController::class, 'save_customer'])->name('add_customer');
+Route::post('/admin/update_customer/{id}', [UserController::class, 'update_customer'])->name('update_customer');
 
 Route::get('/admin/edit_event/{id}', [AdminController::class, 'edit_event'])->name('edit_event');
 Route::post('/admin/event_update/{id}', [AdminController::class, 'event_update'])->name('event_update');

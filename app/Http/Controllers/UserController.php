@@ -22,17 +22,7 @@ class UserController extends Controller
 
     public function allEvents()
     {
-        // $events = DB::table('events')->join('attendees', 'events.id', '!=', 'attendees.event_id')->where('user_id',  Auth::user()->id)->get();
-
         $events = Events::get();
-        // $attendee = Attendees::where('user_id', Auth::user()->id)->get();
-
-        // foreach ($events as $key => $value) {
-        //     # code...
-        //     $value->booked = false;
-        // }
-
-        // dd($events);
 
         return view('customer.custom-all_events', ['events' => $events]);
     }
@@ -133,5 +123,77 @@ class UserController extends Controller
         $events = DB::table('events')->join('attendees', 'events.id', '=', 'attendees.event_id')->where('user_id',  Auth::user()->id)->get();
 
         return view('events.my_events', ['events' => $events]);
+    }
+
+    public function get_booked_edit_form($id)
+    {
+        $user_id = Auth::user()->id;
+        // dd($user_id, $id);
+        $attendee = Attendees::where('user_id', $user_id)->where('id', $id)->get()->first();
+        $event_details = Events::where('id', $attendee->event_id)->get()->first();
+
+        // dd($event_details);
+
+        return view('customer.customer-booked-edit', ['event_details' => $event_details, 'attendee' => $attendee]);
+    }
+
+    public function edit_attendee(Request $request, $id)
+    {
+        try {
+            // dd($request);
+            $user = Auth::user();
+
+            $old_attendee_details = Attendees::where('id', $id)->get()->first();
+            $old_seats_booked = $old_attendee_details->seats_booked;
+            $old_no_of_adults = $old_attendee_details->no_of_adults;
+
+            $old_available_seats = Events::where('id', $old_attendee_details->event_id)->get()->first();
+
+            $new_total_seats = $request->seats_without_table + $request->seats_with_table;
+
+            $new_attendee = Attendees::where('id', $id)->update([
+                'seats_booked_table' => $request->seats_with_table,
+                'seats_booked_without_table' => $request->seats_without_table,
+                'seats_booked' => $new_total_seats,
+                'no_of_adults' => $request->no_of_adults,
+                'adult_photo' => $request->adult_photo
+            ]);
+
+            $new_available_seats = $old_available_seats->available_seats + $old_seats_booked - $new_total_seats;
+
+            $update_available_seats = Events::where('id', $old_attendee_details->event_id)->update(['available_seats' => $new_available_seats]);
+
+            $event_details_print = DB::table('events')->join('attendees', 'events.id', '=', 'attendees.event_id')->where('user_id',  Auth::user()->id)->get();
+
+            return response()->json(['success' => 'success', 'event_details_print' => $event_details_print]);
+        } catch (Exception $e) {
+            // dd($request);
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage() . ' ' . $e->getLine()]);
+        }
+    }
+
+    public function custom_booked_delete($id)
+    {
+        try {
+            // dd($request);
+            $user = Auth::user();
+            $attendee = Attendees::where('id', $id)->get()->first();
+            $event_details = Events::where('id', $attendee->event_id)->get()->first();
+
+            $add_seats = $event_details->available_seats + $attendee->seats_booked;
+
+            $update_available_seats = Events::where('id', $attendee->event_id)->update([
+                'available_seats' => $add_seats
+            ]);
+            $updated_booking = Attendees::where('id', $id)->delete($id);
+
+            return redirect()->route('listEvents');
+
+        } catch (Exception $e) {
+            // dd($request);
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage() . ' ' . $e->getLine()]);
+        }
     }
 }
