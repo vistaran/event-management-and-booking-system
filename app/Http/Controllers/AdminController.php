@@ -99,5 +99,11 @@ class AdminController extends Controller
         return view('events.event-book', ['event_details' => $event_details]);
     }
 
+    public function manageBookings()
+    {
+        $events = DB::table('events')->join('attendees', 'events.id', '=', 'attendees.event_id')->join('users', 'attendees.user_id', '=', 'users.id')->select('attendees.id as attendee_id','events.*', 'attendees.*','users.*')->orderBy('event_name', 'ASC')->get();
+        // dd($events);
+        return view('events.manage-bookings', ['events' => $events]);
+    }
 
 }

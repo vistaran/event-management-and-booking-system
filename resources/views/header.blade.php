@@ -56,12 +56,12 @@
             <div class="flex gap-6">
                 @auth
                     @if (auth()->user()->is_admin == 0)
-                        <p class="text-2xl font-serif"><a href="{{ route('allEvents') }}">Book your tickets</a></p>
+                        <p class="text-2xl font-serif"><a href="{{ route('allEvents') }}">Mellodian Community Park</a></p>
                     @else
-                        <p class="text-2xl font-serif"><a href="{{ route('events') }}">Book your tickets</a></p>
+                        <p class="text-2xl font-serif"><a href="{{ route('events') }}">Mellodian Community Park</a></p>
                     @endif
                 @else
-                    <p class="text-2xl font-serif"><a href="/">Book your tickets</a></p>
+                    <p class="text-2xl font-serif"><a href="/">Mellodian Community Park</a></p>
                 @endauth
             </div>
             <div class="flex gap-4">
@@ -78,6 +78,9 @@
                         </p>
                     @else
                         <p class="">
+                            <a href="/admin/manage_bookings">Manage Bookings</a>
+                        </p>
+                        <p class="">
                             <a href="/custom_default">Customers</a>
                         </p>
                     @endif
@@ -86,7 +89,10 @@
                     </p>
                 @else
                     <p class="">
-                        <a href="/login">Login</a>
+                        <a href="/login_as_admin">Login as admin</a>
+                    </p>
+                    <p class="">
+                        <a href="/login_as_customer">Login as customer</a>
                     </p>
                     <p class="">
                         <a href="/registration">Register</a>

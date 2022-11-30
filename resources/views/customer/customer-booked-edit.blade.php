@@ -2,7 +2,7 @@
 <div class="p-1 px-48">
 
     <div class="py-5">
-        <h2 class="text-2xl font-semibold">{{ $event_details->event_name }} - Edit Booking</h2>
+        <h2 class="text-2xl font-semibold">{{ $event_details->event_name }} - Edit Booking for user - {{ $user->name }}</h2>
         <h3>
             {{ $event_details->event_date }}
         </h3>
@@ -109,7 +109,7 @@
                 datatype: 'html',
                 success: function(res) {
                     openWin()
-                    window.location.href = '/list_events';
+                    window.location.href = '/admin/manage_bookings';
                     console.log(res);
                 },
                 error: function(err) {

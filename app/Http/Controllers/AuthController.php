@@ -18,7 +18,17 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function customLogin(Request $request)
+    public function loginAsAdmin()
+    {
+        return view('auth.login-as-admin');
+    }
+
+    public function loginAsCustomer()
+    {
+        return view('auth.login-as-customer');
+    }
+
+    public function adminLogin(Request $request)
     {
         try {
             $request->validate([
@@ -34,12 +44,47 @@ class AuthController extends Controller
                 // dd($user);
                 if ($user->is_admin == 1) {
                     // dd('here');
-                    return response()->json(['url' =>'admin/events']);
+                    return response()->json(['url' => 'admin/events']);
                 } else {
-                    return response()->json(['url' =>'all_events']);
+                    return response()->json(['error' => 'Invalid credentials']);
                 }
             } else {
-                return response()->json(['error' =>'Invalid credentials']);
+                return response()->json(['error' => 'Invalid credentials']);
+            }
+        } catch (Exception $e) {
+            // dd($request);
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage() . ' ' . $e->getLine()]);
+        }
+
+        // if (Auth::attempt($credentials)) {
+        // }
+
+        // return redirect("login")->withSuccess('Login details are not valid');
+    }
+
+    public function customLogin(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required',
+                'password' => 'required',
+            ]);
+
+            $credentials = $request->only('email', 'password');
+
+            if (Auth::attempt($credentials)) {
+                // Authentication passed...
+                $user = User::where('email', $request->email)->get()->first();
+                // dd($user);
+                if ($user->is_admin == 0) {
+                    // dd('here');
+                    return response()->json(['url' => 'all_events']);
+                } else {
+                    return response()->json(['error' => 'Invalid credentials']);
+                }
+            } else {
+                return response()->json(['error' => 'Invalid credentials']);
             }
         } catch (Exception $e) {
             // dd($request);
@@ -97,9 +142,14 @@ class AuthController extends Controller
 
     public function signOut()
     {
+        $user = Auth::user()->is_admin;
         Session::flush();
         Auth::logout();
 
-        return Redirect('login');
+        if($user == 0) {
+            return redirect()->route('loginAsCustomer');
+        } else {
+            return redirect()->route('loginAsAdmin');
+        }
     }
 }

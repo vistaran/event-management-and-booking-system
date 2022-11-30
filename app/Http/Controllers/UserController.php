@@ -120,21 +120,22 @@ class UserController extends Controller
 
     public function listEvents()
     {
-        $events = DB::table('events')->join('attendees', 'events.id', '=', 'attendees.event_id')->where('user_id',  Auth::user()->id)->get();
+        $events = DB::table('events')->join('attendees', 'events.id', '=', 'attendees.event_id')->where('user_id',  Auth::user()->id)->orderBy('event_name', 'ASC')->get();
 
         return view('events.my_events', ['events' => $events]);
     }
 
-    public function get_booked_edit_form($id)
+    public function get_booked_edit_form($id, $user_id)
     {
-        $user_id = Auth::user()->id;
+        // $user_id = $request->user_id;
         // dd($user_id, $id);
-        $attendee = Attendees::where('user_id', $user_id)->where('id', $id)->get()->first();
+        $attendee = Attendees::where('id', $id)->where('user_id', $user_id)->get()->first();
         $event_details = Events::where('id', $attendee->event_id)->get()->first();
+        $user = User::where('id', $user_id)->get()->first();
 
         // dd($event_details);
 
-        return view('customer.customer-booked-edit', ['event_details' => $event_details, 'attendee' => $attendee]);
+        return view('customer.customer-booked-edit', ['event_details' => $event_details, 'attendee' => $attendee, 'user' => $user]);
     }
 
     public function edit_attendee(Request $request, $id)
@@ -188,8 +189,7 @@ class UserController extends Controller
             ]);
             $updated_booking = Attendees::where('id', $id)->delete($id);
 
-            return redirect()->route('listEvents');
-
+            return redirect()->route('manageBookings');
         } catch (Exception $e) {
             // dd($request);
             Log::error($e->getMessage());
